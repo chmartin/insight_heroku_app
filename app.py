@@ -17,7 +17,7 @@ class ExampleForm(Form):
     submit_button = SubmitField('Submit Form')
 
 
-def create_my_app(configfile=None):
+def app(configfile=None):
     my_app = Flask(__name__)
     AppConfig(my_app, configfile)  # Flask-Appconfig is not necessary, but
                                 # highly recommend =)
@@ -51,4 +51,4 @@ def create_my_app(configfile=None):
     return my_app
 
 if __name__ == '__main__':
-    create_my_app().run(debug=True)
+    app().run(debug=True)
