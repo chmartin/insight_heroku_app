@@ -17,19 +17,18 @@ class ExampleForm(Form):
     submit_button = SubmitField('Submit Form')
 
 
-def app(configfile=None):
-    my_app = Flask(__name__)
-    AppConfig(my_app, configfile)  # Flask-Appconfig is not necessary, but
+def create_app(configfile=None):
+    app = Flask(__name__)
+    AppConfig(app, configfile)  # Flask-Appconfig is not necessary, but
                                 # highly recommend =)
                                 # https://github.com/mbr/flask-appconfig
-    Bootstrap(my_app)
+    Bootstrap(app)
 
     # in a real app, these should be configured through Flask-Appconfig
-    my_app.config['SECRET_KEY'] = 'devkey'
-    my_app.config['RECAPTCHA_PUBLIC_KEY'] = \
-        '6Lfol9cSAAAAADAkodaYl9wvQCwBMr3qGR_PPHcw'
+    app.config['SECRET_KEY'] = 'devkey'
+    app.config['RECAPTCHA_PUBLIC_KEY'] = '6Lfol9cSAAAAADAkodaYl9wvQCwBMr3qGR_PPHcw'
 
-    @my_app.route('/', methods=('GET', 'POST'))
+    @app.route('/', methods=('GET', 'POST'))
     def index():
         form = ExampleForm()
         form.validate_on_submit()  # to get error messages to the browser
@@ -48,7 +47,7 @@ def app(configfile=None):
 
         return render_template('index.html', form=form, letters=letters)
 
-    return my_app
+    return app
 
 if __name__ == '__main__':
-    app().run(debug=True)
+    create_app().run(debug=True)
