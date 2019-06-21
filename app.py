@@ -9,7 +9,7 @@ from flask_wtf.file import FileField
 from wtforms import TextField, HiddenField, ValidationError, RadioField,\
     BooleanField, SubmitField, IntegerField, FormField, validators
 from wtforms.validators import Required
-from get_digits import get_digits
+from get_stats import get_stats
 
 class ExampleForm(Form):
     steamid = IntegerField('Enter Steamid of User in Question.', description='This is the steamid of user to be considered.')
@@ -39,13 +39,14 @@ def create_app(configfile=None):
         flash('debug message', 'debug')
         flash('different message', 'different')
         flash('uncategorized message')
-        letters = []
+        churn_stats = []
         if request.method == "POST":
             #get steamid that the user has entered
             steamid_to_process = request.form['steamid']
-            letters = get_digits(steamid_to_process)
+            churn_stats = get_stats(steamid_to_process)
 
-        return render_template('index.html', form=form, letters=letters)
+        #print(churn_stats)
+        return render_template('index.html', form=form, churn_stats=[churn_stats])
 
     return app
 
