@@ -12,10 +12,12 @@ def is_production():
     FROM: https://stackoverflow.com/questions/17077863/how-to-see-if-a-flask-app-is-being-run-on-localhost
     """
     root_url = request.url_root
+    print(root_url)
     developer_url = 'http://127.0.0.1:8000/'
     return root_url != developer_url
 
 def query_sql(in_query):
+    to_return = []
     try:
         connection = []
         if ~is_production():
