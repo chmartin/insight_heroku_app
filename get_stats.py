@@ -46,6 +46,8 @@ def get_stats(n):
     friends_prob = 0
     #Read Probabilities
     one_user = query_sql("SELECT * FROM users WHERE steamid = {0}".format(n))
+    if not one_user:
+        return []
     prob_churned_all_users = query_sql("SELECT Prob_Churned FROM users")
     friends_churned_all_users = query_sql("SELECT Prob_Churned_friends_mean FROM users")
     churn_prob = one_user[0][1]*100
