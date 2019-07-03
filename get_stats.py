@@ -68,5 +68,5 @@ def get_stats(n):
     same_fave_prob = one_user[0][8]*100
     play_0p05_more = one_user[0][9]*100
     #print("Got Probs: {0}, {1}".format(churn_prob,friends_prob))
-    return [int(churn_prob), int(friends_score), plot_url_1, plot_url_2, int(add_friend), int(play_owned_game), int(community_profile), int(custom_avatar), int(allow_comments), int(same_fav_prob), int(play_0p05_more)]
+    return [int(churn_prob), int(friends_score), plot_url_1, plot_url_2, int(add_friend), int(play_owned_game), int(community_profile), int(custom_avatar), int(allow_comments), int(same_fave_prob), int(play_0p05_more)]
 
