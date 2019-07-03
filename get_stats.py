@@ -49,7 +49,7 @@ def get_stats(n):
     prob_churned_all_users = query_sql("SELECT Prob_Churned FROM users")
     friends_churned_all_users = query_sql("SELECT Prob_Churned_friends_mean FROM users")
     churn_prob = one_user[0][1]*100
-    friends_prob = (1-one_user[0][2])*100
+    friends_score = (1-one_user[0][2])*100
     list_churn_prob = []
     for x in prob_churned_all_users:
         if x[0] is not None:
@@ -59,7 +59,14 @@ def get_stats(n):
         if x[0] is not None:
             list_friends_prob.append((1.-x[0])*100)
     plot_url_1 = make_plot_user(list_churn_prob,churn_prob)
-    plot_url_2 = make_plot_friends(list_friends_prob,friends_prob)
+    plot_url_2 = make_plot_friends(list_friends_prob,friends_score)
+    add_friend = one_user[0][3]*100
+    play_owned_game = one_user[0][4]*100
+    community_profile = one_user[0][5]*100
+    custom_avatar = one_user[0][6]*100
+    allow_comments = one_user[0][7]*100
+    same_fave_prob = one_user[0][8]*100
+    play_0p05_more = one_user[0][9]*100
     #print("Got Probs: {0}, {1}".format(churn_prob,friends_prob))
-    return [int(churn_prob), int(friends_prob), plot_url_1, plot_url_2]
+    return [int(churn_prob), int(friends_score), plot_url_1, plot_url_2, int(add_friend), int(play_owned_game), int(community_profile), int(custom_avatar), int(allow_comments), int(same_fav_prob), int(play_0p05_more)]
 
