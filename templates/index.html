@@ -6,12 +6,16 @@
 {% import "bootstrap/fixes.html" as fixes %}
 {% import "bootstrap/utils.html" as util %}
 
+{% block navbar %}
+<div class="navbar navbar-static-top">
+  <h1>Welcome to GamerVapor</h1>
+</div>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
-  <h1>Welcome to GamerVapor</h1>
-
-  <h2>A tool to identify and diagnose users likely to churn from the Steam Community</h2>
+<h2>A tool to identify and diagnose users likely to churn from the Steam Community</h2>
   {{ wtf.quick_form(form, form_type='horizontal', button_map={'submit_button': 'primary'})}}
   <br>
 </div>
@@ -19,10 +23,10 @@
 <div class="container">
   <h1>Results</h1>
 
-  {% if churn_stats %}
+  {% if churn_stats[0] %}
     <div id="results">
       {% for churn_stat in churn_stats %}
-      <h3>The probability for this user to churn is: {{ churn_stat[0] }} percent.</h3>
+      <h3>The probability for this user to churn is: {{ churn_stat[0] }}%.</h3>
       <img src="data:image/png;base64, {{ churn_stat[2] }}" width="500" height="500" alt="graph">
       <h3>The community score for this users friend group is: {{ churn_stat[1] }}/100.</h3>
       <img src="data:image/png;base64, {{ churn_stat[3] }}" width="500" height="500" alt="graph">

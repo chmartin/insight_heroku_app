@@ -5,12 +5,13 @@ import seaborn as sns
 import io
 import urllib.parse
 import base64
+from query_sql import query_sql
 
 
 def make_plot_user(full_list,one_user):
     img = io.BytesIO()
     axis = plt.figure(figsize=(6,6))
-    sns.distplot( full_list , color="maroon", label="All Users",bins=100,kde=False)
+    sns.distplot( full_list , color="mediumblue", label="All Users",bins=100,kde=False)
     plt.plot([one_user, one_user], [0, 800],'k--',label="This User")
     plt.legend()
     plt.ylabel("Number of Users")
@@ -26,7 +27,7 @@ def make_plot_user(full_list,one_user):
 def make_plot_friends(full_list,one_user):
     img = io.BytesIO()
     axis = plt.figure(figsize=(6,6))
-    sns.distplot( full_list , color="maroon", label="All Users friends",bins=100,kde=False)
+    sns.distplot( full_list , color="mediumblue", label="All Users friends",bins=100,kde=False)
     plt.plot([one_user, one_user], [0, 800],'k--',label="This Users friends")
     plt.legend()
     plt.ylabel("Number of Friend Groups")
@@ -44,14 +45,21 @@ def get_stats(n):
     churn_prob = 0
     friends_prob = 0
     #Read Probabilities
-    with open('./data/SteamChurn.json') as jsonfile:
-        data=json.load(jsonfile)
-        churn_prob = data.get('Prob_Churned').get(n)*100
-        friends_prob = (1-data.get('Prob_Churned_friends_mean').get(n))*100
-        list_churn_prob = [(x)*100 for x in list(data.get('Prob_Churned').values())]
-        list_friends_prob = [(1-x)*100 for x in list(data.get('Prob_Churned_friends_mean').values())]
-        plot_url_1 = make_plot_user(list_churn_prob,churn_prob)
-        plot_url_2 = make_plot_friends(list_friends_prob,friends_prob)
+    one_user = query_sql("SELECT * FROM users WHERE steamid = {0}".format(n))
+    prob_churned_all_users = query_sql("SELECT Prob_Churned FROM users")
+    friends_churned_all_users = query_sql("SELECT Prob_Churned_friends_mean FROM users")
+    churn_prob = one_user[0][1]*100
+    friends_prob = (1-one_user[0][2])*100
+    list_churn_prob = []
+    for x in prob_churned_all_users:
+        if x[0] is not None:
+            list_churn_prob.append(x[0]*100)
+    list_friends_prob = []
+    for x in friends_churned_all_users:
+        if x[0] is not None:
+            list_friends_prob.append((1.-x[0])*100)
+    plot_url_1 = make_plot_user(list_churn_prob,churn_prob)
+    plot_url_2 = make_plot_friends(list_friends_prob,friends_prob)
     #print("Got Probs: {0}, {1}".format(churn_prob,friends_prob))
     return [int(churn_prob), int(friends_prob), plot_url_1, plot_url_2]
 
