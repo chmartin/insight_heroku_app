@@ -12,9 +12,9 @@ from wtforms.validators import Required
 from get_stats import get_stats
 
 class ExampleForm(Form):
-    steamid = IntegerField('Enter Steamid of User in Question.', description='This is the steamid of user to be considered.')
+    steamid = IntegerField(' ', description='This is the steamid of user to be considered.')
 
-    submit_button = SubmitField('Submit Form')
+    submit_button = SubmitField('Load Analysis')
 
 
 def create_app(configfile=None):
@@ -47,6 +47,14 @@ def create_app(configfile=None):
 
         #print(churn_stats)
         return render_template('index.html', form=form, churn_stats=[churn_stats])
+    
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
+
+    @app.route('/contact')
+    def contact():
+        return render_template('cover.html')
 
     return app
 

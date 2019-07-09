@@ -1,51 +1,57 @@
 <!-- This is modified from: https://github.com/mbr/flask-bootstrap/blob/master/sample_application/ -->
 <!-- and https://gist.github.com/ericbarnhill/251df20105991674c701d33d65437a50 -->
 
-{% extends "bootstrap/base.html" %}
+{% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "bootstrap/fixes.html" as fixes %}
 {% import "bootstrap/utils.html" as util %}
 
-{% block navbar %}
-<div class="navbar navbar-static-top">
-  <h1>Welcome to GamerVapor</h1>
-</div>
-{% endblock %}
-
 {% block content %}
 
-<div class="container">
+<div class="jumbotron text-center" style="padding: 15px">
+
 <h2>A tool to identify and diagnose users likely to churn from the Steam Community</h2>
-  {{ wtf.quick_form(form, form_type='horizontal', button_map={'submit_button': 'primary'})}}
+  <div style="width: 50%; text-align: center; margin: auto">
+        {{ wtf.quick_form(form, form_type='horizontal', button_map={'submit_button': 'primary'})}}
+  </div>
   <br>
 </div>
 
-<div class="container">
+<div class="jumbotron text-center" style="padding: 15px">
   <h1>Results</h1>
 
   {% if churn_stats[0] %}
     <div id="results">
       {% for churn_stat in churn_stats %}
-      <h3>The probability for this user to churn is: {{ churn_stat[0] }}%.</h3>
-      <img src="data:image/png;base64, {{ churn_stat[2] }}" width="500" height="500" alt="graph">
-      <h4>Adding a new friend will change this to: {{ churn_stat[4] }}%.</h4>
-      <h4>If they had the same favorite game as their friends this will change to: {{ churn_stat[9] }}%.</h4>
-      <h4>Playing a new game they already own will change this to: {{ churn_stat[5] }}%.</h4>
-      <h4>Creating a community profile will change this to: {{ churn_stat[6] }}%.</h4>
-      <h4>Setting a personal avatar will change this to: {{ churn_stat[7] }}%.</h4>
-      <h4>Allowing comments on their profile will change this to: {{ churn_stat[8] }}%.</h4>
-      <h4>If they increase their playtime by 5% this will change to: {{ churn_stat[10] }}%.</h4>
-      
-      
+      <div class="row">
+          <div class="column">
+              <h3>The probability for this user to churn is: {{ churn_stat[0] }}%.</h3>
+              <br />
+              <img src="data:image/png;base64, {{ churn_stat[2] }}" width="500" height="500" alt="graph">
+          </div>
+          <div class="column">
+              <br />
+              <br />
+              <br />
+              <br />
+              <p class="lead text-muted">Adding a new friend will change this to: {{ churn_stat[4] }}%.</p>
+              <p class="lead text-muted">If they had the same favorite game as their friends this will change to: {{ churn_stat[9] }}%.</p>
+              <p class="lead text-muted">Playing a new game they already own will change this to: {{ churn_stat[5] }}%.</p>
+              <p class="lead text-muted">Creating a community profile will change this to: {{ churn_stat[6] }}%.</p>
+              <p class="lead text-muted">Setting a personal avatar will change this to: {{ churn_stat[7] }}%.</p>
+              <p class="lead text-muted">Allowing comments on their profile will change this to: {{ churn_stat[8] }}%.</p>
+              <p class="lead text-muted">If they increase their playtime by 5% this will change to: {{ churn_stat[10] }}%.</p>
+          </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
       <h3>The community score for this users friend group is: {{ churn_stat[1] }}/100.</h3>
       <img src="data:image/png;base64, {{ churn_stat[3] }}" width="500" height="500" alt="graph">
+
       {% endfor %}
     </div>
   {% endif %}
 </div>
-{% endblock %}
-
-{% block head %}
-{{super()}}
-{{fixes.ie8()}}
 {% endblock %}
